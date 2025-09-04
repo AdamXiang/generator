@@ -1,4 +1,4 @@
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 from datetime import datetime
 from functools import partial
 
@@ -88,3 +88,15 @@ def parsed_data():
 
         if parsed:
             yield parsed
+
+
+def violation_count_by_make(): 
+    makes_counts = defaultdict(int)
+    for data in parsed_data():
+        makes_counts[data.vehicle_make] += 1
+
+    
+    return {mk: cnt 
+            for mk, cnt in sorted(makes_counts.items(), key=lambda tup: tup[1], reverse=True)}
+
+print(violation_count_by_make())
